@@ -24,15 +24,30 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(middlewares)
 
     // Configure a Mysql database
-    let mysqlConfig = MySQLDatabaseConfig(
-        hostname: "127.0.0.1",
-        username: "vapor",
-        password: "password",
-        database: "vapor",
-        transport: .unverifiedTLS  //默认cleartext（即明文），mysql>8.0采用sha2加密需要设置成.unverifiedTLS
-    )
-    let sqlite = MySQLDatabase(config: mysqlConfig)
+//    let mysqlConfig = MySQLDatabaseConfig(
+//        hostname: "127.0.0.1",
+//        username: "vapor",
+//        password: "password",
+//        database: "vapor",
+//        transport: .unverifiedTLS  //默认cleartext（即明文），mysql>8.0采用sha2加密需要设置成.unverifiedTLS
+//    )
     
+    // 2
+    let hostname = Environment.get("DATABASE_HOSTNAME")
+      ?? "localhost"
+    let username = Environment.get("DATABASE_USER") ?? "vapor"
+    let databaseName = Environment.get("DATABASE_DB") ?? "vapor"
+    let password = Environment.get("DATABASE_PASSWORD")
+      ?? "password"
+    // 3
+    let mysqlConfig = MySQLDatabaseConfig(
+      hostname: hostname,
+      username: username,
+      password: password,
+      database: databaseName,
+      transport: .unverifiedTLS)
+
+    let sqlite = MySQLDatabase(config: mysqlConfig)
     // Register the configured SQLite database to the database config.
     var databases = DatabasesConfig()
     databases.add(database: sqlite, as: .mysql)

@@ -8,6 +8,25 @@ public func routes(_ router: Router) throws {
         return "It works!"
     }
     
+    router.get("apple-app-site-association") { (req) ->Future<Response> in
+        let str = #"""
+        {
+            "applinks":{
+                "apps":[
+
+                ],
+                "details":[
+                    {
+                        "paths":["/*"],
+                        "appID":"ZLDG549PQK.com.qiqi.carryCommunity"
+                    }
+                ]
+            }
+        }
+       """#
+        return try str.encode(for: req)
+    }
+    
     try router.register(collection: UserController())
     
 }

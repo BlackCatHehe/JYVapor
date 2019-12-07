@@ -1,0 +1,13 @@
+{
+    "applinks":{
+        "apps":[
+
+        ],
+        "details":[
+            {
+                "paths":["/*"],
+                "appID":"ZLDG549PQK.com.qiqi.carryCommunity"
+            }
+        ]
+    }
+}
